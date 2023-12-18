@@ -30,7 +30,6 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-
     getAllProduk: async (req, res) => {
         try{
             const produk = await Produk.find({});
@@ -51,7 +50,9 @@ module.exports = {
     },
     createProduk: async (req, res) => {
         try{
-            const produk = await Produk.create(req.body);
+            const {name, price, quantity} = req.body;
+            const produk = await Produk.create({name, price, quantity});
+            // const produk = await Produk.create(req.body);
             res.status(200).json(produk);
         }catch(err){
             console.log(err);
@@ -61,7 +62,9 @@ module.exports = {
     updateProduk: async (req, res) => {
         try{
             const {id} = req.params;
-            const produk = await Produk.findByIdAndUpdate(id, req.body)
+            // const produk = await Produk.findByIdAndUpdate(id, req.body)
+            const {name, price, quantity} = req.body;
+            const produk = await Produk.findByIdAndUpdate(id, {name, price, quantity})
             if(!produk){
                 return res.status(404).json({message: 'produk not found'})
             }
