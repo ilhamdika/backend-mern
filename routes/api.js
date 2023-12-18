@@ -3,6 +3,7 @@ var router = express.Router();
 const apiController = require('../controllers/apiController');
 
 router.post('/register', apiController.register);
+router.post('/login', apiController.login);
 
 router.get('/produk', apiController.getAllProduk);
 router.get('/produk/:id', apiController.getProdukById);

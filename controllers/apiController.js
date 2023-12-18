@@ -1,5 +1,6 @@
 const Produk = require('../models/Produk');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
     register: async (req, res) => {
@@ -12,6 +13,24 @@ module.exports = {
             res.status(500).send(err);
         }
     },
+    login: async (req, res) => {
+        const {email, password} = req.body;
+
+        try{
+            const user = await User.findOne({email, password});
+            if(!user){
+                return res.status(404).json({message: 'user not found'});
+            } else {
+                const token = jwt.sign({ email }, 'secret_key');
+
+                res.status(200).json({token});
+            }
+        } catch(err){
+            console.log(err);
+            res.status(500).json(err);
+        }
+    },
+
     getAllProduk: async (req, res) => {
         try{
             const produk = await Produk.find({});
