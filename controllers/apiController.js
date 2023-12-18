@@ -18,12 +18,12 @@ module.exports = {
 
         try{
             const user = await User.findOne({email, password});
-            if(!user){
-                return res.status(404).json({message: 'user not found'});
-            } else {
-                const token = jwt.sign({ email }, 'secret_key');
+            if(user){
+                const token = jwt.sign({ email }, 'secret_key', { expiresIn: '1h' });
 
-                res.status(200).json({token});
+                res.json({ token });
+            } else{
+                res.status(401).json({message: 'email atau password salah'});
             }
         } catch(err){
             console.log(err);
