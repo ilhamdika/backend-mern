@@ -1,6 +1,17 @@
 const Produk = require('../models/Produk');
+const User = require('../models/User');
 
 module.exports = {
+    register: async (req, res) => {
+        try{
+            const {name, email, password, jenis_kelamin} = req.body;
+            const user = await User.create({name, email, password, jenis_kelamin});
+            res.status(200).json(user);
+        } catch(err){
+            console.log(err);
+            res.status(500).send(err);
+        }
+    },
     getAllProduk: async (req, res) => {
         try{
             const produk = await Produk.find({});
