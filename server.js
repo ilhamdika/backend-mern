@@ -2,10 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Produk = require('./models/Produk');
 const apiRouter = require('./routes/api');
+const cors = require('cors');
 const app = express();
 
 app.use(express.json());
 //routes
+const corsOptions = {
+    origin: '*',
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}
+app.use(cors(corsOptions));
 app.use('/api', apiRouter);
 
 app.get('/', (req, res) => {
